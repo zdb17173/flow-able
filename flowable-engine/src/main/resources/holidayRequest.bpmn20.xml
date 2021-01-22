@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="holidayRequest" name="holidayRequest" isExecutable="true">
+    <startEvent id="startEvent" flowable:formFieldValidation="true"></startEvent>
+    <userTask id="approveTask" name="approveTask" flowable:assignee="${manager}" flowable:candidateGroups="managers" flowable:formFieldValidation="true">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-CD8B15E1-5628-4A9B-B347-3DA996D07E16" sourceRef="startEvent" targetRef="approveTask"></sequenceFlow>
+    <exclusiveGateway id="decision"></exclusiveGateway>
+    <endEvent id="sid-252473A2-C499-4423-A5E8-B3A95870DA7B"></endEvent>
+    <userTask id="holidayApprovedTask" name="holidayApprovedTask" flowable:assignee="${employee}" flowable:formFieldValidation="true">
+      <extensionElements>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-BBEC448D-5D10-48A9-8BFA-7ACD3E9ECA28" sourceRef="holidayApprovedTask" targetRef="sid-252473A2-C499-4423-A5E8-B3A95870DA7B"></sequenceFlow>
+    <serviceTask id="externalSystemCall" name="externalSystemCall" flowable:class="org.fran.demo.flowable.engine.clazz.CallExternalSystemDelegate"></serviceTask>
+    <sequenceFlow id="sid-B145151E-6F37-4B69-989E-C777D840024A" sourceRef="externalSystemCall" targetRef="holidayApprovedTask"></sequenceFlow>
+    <serviceTask id="sendRejectionMail" name="sendRejectionMail" flowable:class="org.fran.demo.flowable.engine.clazz.SendRejectionMail"></serviceTask>
+    <sequenceFlow id="sid-B71797B3-3F2A-4AD4-B12E-F6E1CCC6830D" sourceRef="sendRejectionMail" targetRef="approveTask"></sequenceFlow>
+    <sequenceFlow id="sid-E4BB969B-DFE0-4F76-9DFA-DBDF49A24162" sourceRef="decision" targetRef="sendRejectionMail">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!approved}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-B6724A3F-4D6C-4754-B30B-EBF9407817FC" sourceRef="decision" targetRef="externalSystemCall">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approved}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-6D6C8793-24BA-4528-B80F-7C8EDF45B837" sourceRef="approveTask" targetRef="decision"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_holidayRequest">
+    <bpmndi:BPMNPlane bpmnElement="holidayRequest" id="BPMNPlane_holidayRequest">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="BPMNShape_startEvent">
+        <omgdc:Bounds height="30.0" width="30.0" x="165.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approveTask" id="BPMNShape_approveTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="315.0" y="125.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="decision" id="BPMNShape_decision">
+        <omgdc:Bounds height="40.0" width="40.0" x="510.0" y="145.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-252473A2-C499-4423-A5E8-B3A95870DA7B" id="BPMNShape_sid-252473A2-C499-4423-A5E8-B3A95870DA7B">
+        <omgdc:Bounds height="28.0" width="28.0" x="1020.0" y="151.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="holidayApprovedTask" id="BPMNShape_holidayApprovedTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="810.0" y="125.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="externalSystemCall" id="BPMNShape_externalSystemCall">
+        <omgdc:Bounds height="80.0" width="100.0" x="645.0" y="125.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sendRejectionMail" id="BPMNShape_sendRejectionMail">
+        <omgdc:Bounds height="80.0" width="100.0" x="645.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-B145151E-6F37-4B69-989E-C777D840024A" id="BPMNEdge_sid-B145151E-6F37-4B69-989E-C777D840024A">
+        <omgdi:waypoint x="744.9499999999836" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="809.9999999999847" y="165.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-B71797B3-3F2A-4AD4-B12E-F6E1CCC6830D" id="BPMNEdge_sid-B71797B3-3F2A-4AD4-B12E-F6E1CCC6830D">
+        <omgdi:waypoint x="695.0" y="349.95000000000005"></omgdi:waypoint>
+        <omgdi:waypoint x="695.0" y="432.0"></omgdi:waypoint>
+        <omgdi:waypoint x="365.0" y="432.0"></omgdi:waypoint>
+        <omgdi:waypoint x="365.0" y="204.95"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-BBEC448D-5D10-48A9-8BFA-7ACD3E9ECA28" id="BPMNEdge_sid-BBEC448D-5D10-48A9-8BFA-7ACD3E9ECA28">
+        <omgdi:waypoint x="909.9499999999266" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1020.0" y="165.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-B6724A3F-4D6C-4754-B30B-EBF9407817FC" id="BPMNEdge_sid-B6724A3F-4D6C-4754-B30B-EBF9407817FC">
+        <omgdi:waypoint x="549.5240877497815" y="165.4173913043478"></omgdi:waypoint>
+        <omgdi:waypoint x="644.9999999999962" y="165.00411255411254"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-CD8B15E1-5628-4A9B-B347-3DA996D07E16" id="BPMNEdge_sid-CD8B15E1-5628-4A9B-B347-3DA996D07E16">
+        <omgdi:waypoint x="194.94999946593478" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="315.0" y="165.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-6D6C8793-24BA-4528-B80F-7C8EDF45B837" id="BPMNEdge_sid-6D6C8793-24BA-4528-B80F-7C8EDF45B837">
+        <omgdi:waypoint x="414.9499999999835" y="165.0"></omgdi:waypoint>
+        <omgdi:waypoint x="510.0" y="165.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-E4BB969B-DFE0-4F76-9DFA-DBDF49A24162" id="BPMNEdge_sid-E4BB969B-DFE0-4F76-9DFA-DBDF49A24162">
+        <omgdi:waypoint x="530.5" y="184.44344744121716"></omgdi:waypoint>
+        <omgdi:waypoint x="530.5" y="310.0"></omgdi:waypoint>
+        <omgdi:waypoint x="645.0" y="310.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

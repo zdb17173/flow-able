@@ -8,7 +8,10 @@ import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
+import org.fran.demo.flowable.engine.service.ImageService;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +30,8 @@ public class HolidayRequest {
 
        RepositoryService repositoryService = processEngine.getRepositoryService();
        Deployment deployment = repositoryService.createDeployment()
-               .addClasspathResource("holiday-request.bpmn20.xml")
+//               .addClasspathResource("holiday-request.bpmn20.xml")
+               .addClasspathResource("holidayRequest.bpmn20.xml")
                .deploy();
 
        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
@@ -50,6 +54,15 @@ public class HolidayRequest {
 
 
        TaskService taskService = processEngine.getTaskService();
+       HistoryService historyService = processEngine.getHistoryService();
+
+       ImageService imageService = new ImageService(
+               repositoryService,
+               historyService,
+               runtimeService
+       );
+
+
        List<Task> tasks = taskService.createTaskQuery()
                .taskCandidateGroup("managers").list();
        System.out.println("You have " + tasks.size() + " tasks:");
@@ -64,6 +77,8 @@ public class HolidayRequest {
                    processVariables.get("nrOfHolidays") + " fran claim this");
            taskService.claim(task.getId(), "fran");
        }
+
+
 
        /* 按ID查询
        tasks = taskService.createTaskQuery()
@@ -97,6 +112,16 @@ public class HolidayRequest {
            taskService.complete(task.getId(), processVariables);
        }
 
+       //打印流程状态图片
+       try {
+           byte[] b = imageService.generateImageByProcInstId(processInstance.getId());
+           FileOutputStream out = new FileOutputStream(new File("C:\\Users\\fran\\Desktop\\flowable\\aa.jpg"));
+           out.write(b);
+           out.close();
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+
        //返回0 因为已经被claim
        tasks = taskService.createTaskQuery()
                .taskCandidateGroup("managers").list();
@@ -114,6 +139,7 @@ public class HolidayRequest {
        }
 
 
+
        //处理第二步（因employee为zdb，该步骤flowable:assignee="${employee}" 所以该步骤直接指定给了zdb
        tasks = taskService.createTaskQuery().taskAssignee("zdb").list();
        System.out.println("You have " + tasks.size() + " tasks:");
@@ -126,10 +152,12 @@ public class HolidayRequest {
            taskService.complete(task.getId(), processVariables);
        }
 
+
+
        //查询进行中的流程
        //List<ProcessInstance> instances = runtimeService.createProcessInstanceQuery().list();
        System.out.println("\r\nhistory query:");
-       HistoryService historyService = processEngine.getHistoryService();
+
        List<HistoricActivityInstance> activities =
            historyService.createHistoricActivityInstanceQuery()
                .processInstanceId(processInstance.getId())
