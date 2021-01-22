@@ -276,7 +276,7 @@ public class ImageService {
             imageStream = ((CustomProcessDiagramGenerator) processDiagramGenerator)
                     .generateDiagramCustom(bpmnModel, "png",
                             highLightedActivitiIdList, runningActivitiIdList, highLightedFlowIds,
-                            "宋体", "微软雅黑", "黑体",
+                            "宋体", "宋体", "黑体",
                             null, 2.0);
             // 将InputStream数据流转换为byte[]
             byte[] buffer = new byte[imageStream.available()];

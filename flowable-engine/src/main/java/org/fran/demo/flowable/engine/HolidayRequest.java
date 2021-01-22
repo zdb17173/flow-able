@@ -112,7 +112,7 @@ public class HolidayRequest {
            taskService.complete(task.getId(), processVariables);
        }
 
-       //打印流程状态图片
+       //打印流程状态图片（如需要生成实时流程状态jpg，需要使用flowable-ui制作带坐标的bpmn20.xml图
        try {
            byte[] b = imageService.generateImageByProcInstId(processInstance.getId());
            FileOutputStream out = new FileOutputStream(new File("C:\\Users\\fran\\Desktop\\flowable\\aa.jpg"));
