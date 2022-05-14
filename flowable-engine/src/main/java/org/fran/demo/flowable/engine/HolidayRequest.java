@@ -7,8 +7,7 @@ import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
-import org.flowable.task.api.TaskQuery;
-import org.fran.demo.flowable.engine.service.ImageService;
+import org.fran.demo.flowable.engine.util.ImageService;
 
 import java.io.File;
 import java.io.FileOutputStream;

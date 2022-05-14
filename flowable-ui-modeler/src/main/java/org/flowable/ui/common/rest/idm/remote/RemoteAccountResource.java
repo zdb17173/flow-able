@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 免登录，替换原RemoteAccountResource，返回固定用户
+ * @author fran
+ * @Description 免登录，替换原RemoteAccountResource，返回固定用户
+ * @Date 2022/5/3 22:33
+ *
  */
 @RestController
 @RequestMapping({"/app", "/"})

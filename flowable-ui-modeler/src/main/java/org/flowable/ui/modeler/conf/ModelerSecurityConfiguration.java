@@ -9,7 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 /**
- * 免登陆设置，所有接口不判断权限
+ * @author fran
+ * @Description 免登陆设置，所有接口不判断权限
+ * @Date 2022/5/3 22:34
+ *
  */
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity

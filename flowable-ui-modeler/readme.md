@@ -1,4 +1,13 @@
 
+# 文档
+https://www.flowable.com/open-source/docs/bpmn/ch14-Applications
+右侧
+- Flowable IDM app：提供管理用户、组和权限的权限
+- Flowable Modeler app：可进行流程的编辑
+- Flowable Task app：提供登录 Flowable Task 应用程序
+- Flowable Admin app：允许用户登录 Flowable Admin 应用程序，管理 Flowable 引擎并访问应用程序的 Actuator 端点
+
+
 # 设置mysql
 ```sql
 spring:
