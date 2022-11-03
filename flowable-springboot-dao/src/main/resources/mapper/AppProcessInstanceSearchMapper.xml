@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fran.demo.flowable.springboot.dao.mapper.AppProcessInstanceSearchMapper">
+  <resultMap id="BaseResultMap" type="org.fran.demo.flowable.springboot.dao.po.AppProcessInstanceSearch">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="search_id" jdbcType="BIGINT" property="searchId" />
+    <result column="process_instance_id" jdbcType="VARCHAR" property="processInstanceId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_process_instance_search
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.fran.demo.flowable.springboot.dao.po.AppProcessInstanceSearch">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_process_instance_search (search_id, process_instance_id)
+    values (#{searchId,jdbcType=BIGINT}, #{processInstanceId,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.fran.demo.flowable.springboot.dao.po.AppProcessInstanceSearch">
+    update app_process_instance_search
+    set search_id = #{searchId,jdbcType=BIGINT},
+      process_instance_id = #{processInstanceId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, search_id, process_instance_id
+    from app_process_instance_search
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, search_id, process_instance_id
+    from app_process_instance_search
+  </select>
+
+  <select id="selectByInstanceId" resultMap="BaseResultMap">
+    select id, search_id, process_instance_id
+    from app_process_instance_search
+    where process_instance_id = #{processInstanceId}
+    order by id desc
+  </select>
+
+</mapper>

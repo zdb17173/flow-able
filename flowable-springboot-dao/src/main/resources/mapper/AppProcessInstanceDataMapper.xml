@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fran.demo.flowable.springboot.dao.mapper.AppProcessInstanceDataMapper">
+  <resultMap id="BaseResultMap" type="org.fran.demo.flowable.springboot.dao.po.AppProcessInstanceData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="instance_id" jdbcType="VARCHAR" property="instanceId" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="data" jdbcType="LONGVARBINARY" property="data" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_process_instance_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.fran.demo.flowable.springboot.dao.po.AppProcessInstanceData">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_process_instance_data (instance_id, creator, task_id,
+    task_name, create_time, end_time,
+    data)
+    values (#{instanceId,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR},
+    #{taskName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP},
+    #{data,jdbcType=LONGVARBINARY})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.fran.demo.flowable.springboot.dao.po.AppProcessInstanceData">
+    update app_process_instance_data
+    set instance_id = #{instanceId,jdbcType=VARCHAR},
+        creator = #{creator,jdbcType=VARCHAR},
+        task_id = #{taskId,jdbcType=VARCHAR},
+        task_name = #{taskName,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+        data = #{data,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKeyWithoutData" parameterType="org.fran.demo.flowable.springboot.dao.po.AppProcessInstanceData">
+    update app_process_instance_data
+    set instance_id = #{instanceId,jdbcType=VARCHAR},
+        creator = #{creator,jdbcType=VARCHAR},
+        task_id = #{taskId,jdbcType=VARCHAR},
+        task_name = #{taskName,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, instance_id, creator, task_id, task_name, create_time, end_time, data
+    from app_process_instance_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, instance_id, creator, task_id, task_name, create_time, end_time, data
+    from app_process_instance_data
+  </select>
+
+  <select id="selectByTaskId" resultMap="BaseResultMap">
+    select id, instance_id, creator, task_id, task_name, create_time, end_time, data
+    from app_process_instance_data
+    where task_id = #{taskId}
+  </select>
+
+  <select id="selectLastRecordByInstanceId" resultMap="BaseResultMap">
+    select id, instance_id, creator, task_id, task_name, create_time, end_time, data
+    from app_process_instance_data
+    where instance_id = #{instanceId}
+    order by id desc
+    limit 0,1
+  </select>
+
+  <select id="selectByInstanceIdWithoutData" resultMap="BaseResultMap">
+    select id, instance_id, creator, task_id, task_name, create_time, end_time
+    from app_process_instance_data
+    where instance_id = #{instanceId}
+    order by id desc
+  </select>
+</mapper>

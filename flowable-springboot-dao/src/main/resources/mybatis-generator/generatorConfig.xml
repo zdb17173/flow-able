@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry location="C:\dev\workspace\workspace-gitfran\flow-able\flowable-springboot-dao\src\main\resources\mybatis-generator\mysql-connector-java-5.1.36.jar" />
+
+    <context id="birman" targetRuntime="MyBatis3Simple" defaultModelType="flat" >
+        <!-- 注释 -->
+        <commentGenerator >
+            <property name="suppressAllComments" value="true"/><!-- 是否取消注释 -->
+            <property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳-->
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost/flowable"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="org.fran.demo.flowable.springboot.dao.po" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="false" />
+            <property name="trimStrings" value="false" />
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="org.fran.demo.flowable.springboot.dao.generator"  targetProject="./src/main/java">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="org.fran.demo.flowable.springboot.dao.generator"  targetProject="./src/main/java">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!-- tables
+        <table schema="schema" tableName="app_process_definition" domainObjectName="AppProcessDefinition">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table schema="schema" tableName="app_process_definition_variables" domainObjectName="AppProcessDefinitionVariables">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table schema="schema" tableName="app_process_instance_data" domainObjectName="AppProcessInstanceData">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+        -->
+
+        <table schema="schema" tableName="app_process_instance_search" domainObjectName="AppProcessInstanceSearch">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+        <table schema="schema" tableName="app_process_search_keys" domainObjectName="AppProcessSearchKeys">
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+
+    <!--
+    <table schema="schema" tableName="process_bytes" domainObjectName="ProcessBytes">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+    <table schema="schema" tableName="process_deployment" domainObjectName="ProcessDeployment">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+    <table schema="schema" tableName="process_task" domainObjectName="ProcessTask">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+    <table schema="schema" tableName="process_variable" domainObjectName="ProcessVariable">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+    <table schema="schema" tableName="process_instance" domainObjectName="ProcessInstance">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+    <table schema="schema" tableName="process_search" domainObjectName="ProcessSearch">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+
+    <javaModelGenerator targetPackage="org.fran.shiro.db.po" targetProject="..\source">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="false" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="org.fran.shiro.db.dao"  targetProject="..\source">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="org.fran.shiro.db.dao"  targetProject="..\source">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+    <table schema="schema" tableName="fran_permissions" domainObjectName="FranPermissions">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+    <table schema="schema" tableName="fran_user" domainObjectName="FranUser">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>
+
+
+    <javaModelGenerator targetPackage="org.fran.druid.mybatis.po" targetProject="..\source">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="false" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="org.fran.druid.mybatis.dao"  targetProject="..\source">
+      <property name="enableSubPackages" value="false" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="org.fran.druid.mybatis.dao"  targetProject="..\source">
+      <property name="enableSubPackages" value="false" />
+    </javaClientGenerator>
+
+
+    <table schema="schema" tableName="sys_log" domainObjectName="SysLog">
+      <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+    </table>-->
+
+    </context>
+</generatorConfiguration>

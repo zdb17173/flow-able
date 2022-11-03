@@ -1,8 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/flowable?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/comp_flowable?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+#    url: jdbc:mysql://localhost:3306/flowable?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
     test-on-borrow: true
     validation-query: SELECT 1
@@ -22,3 +25,24 @@ flowable:
   async-executor-activate: false
   process-definition-location-prefix: "classpath*:/processes/"
   process-definition-location-suffixes: "**.bpmn20.xml,**.bpmn"
+  database-schema-update: true
+
+
+swagger:
+  host: localhost:8080
+  apiInfo:
+    title: api title
+    description: api description
+    serviceTerms: My Apps API terms of service
+    license: Apache License Version 2.0
+    licenseUrl: https://github.com/springfox/springfox/blob/master/LICENSE
+    version: version
+    contact:
+      name: fran
+      url: zhang.dongbo@cgtn.com
+      email: zhang.dongbo@cgtn.com
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: org.fran.demo.flowable.springboot.dao.mapper

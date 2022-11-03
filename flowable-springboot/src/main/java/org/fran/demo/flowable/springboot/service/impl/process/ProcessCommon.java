@@ -1,0 +1,96 @@
+package org.fran.demo.flowable.springboot.service.impl.process;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.engine.*;
+import org.flowable.engine.runtime.Execution;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.image.ProcessDiagramGenerator;
+import org.fran.demo.flowable.springboot.dao.mapper.*;
+import org.fran.demo.flowable.springboot.exceptions.ProcessIllegalAccessException;
+import org.fran.demo.flowable.springboot.service.LoginUserService;
+import org.fran.demo.flowable.springboot.service.impl.loginuser.User;
+
+import javax.annotation.Resource;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+//流程公共，flowable依赖、json转换、获取登录用户
+public abstract class ProcessCommon {
+    @Resource
+    ProcessEngine processEngine;
+    @Resource
+    RuntimeService runtimeService;
+    @Resource
+    TaskService taskService;
+    @Resource
+    HistoryService historyService;
+    @Resource
+    RepositoryService repositoryService;
+    @Resource
+    AppProcessDefinitionMapper appProcessDefinitionMapper;
+    @Resource
+    AppProcessDefinitionVariablesMapper appProcessDefinitionVariablesMapper;
+    @Resource
+    AppProcessInstanceDataMapper appProcessInstanceDataMapper;
+    @Resource
+    AppProcessSearchKeysMapper appProcessSearchKeysMapper;
+    @Resource
+    AppProcessInstanceSearchMapper appProcessInstanceSearchMapper;
+    @Resource
+    LoginUserService loginUserService;
+
+    public static int MAX_PAGE_SIZE = 10;
+    static Date minDate = new Date(532281600000l);//基准时间
+    static String endProcessImage = "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";
+    static ObjectMapper objectMapper = new ObjectMapper();
+    ProcessCommon(){
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    //获取当前用户
+    protected User getCurrUser(){
+        User user = loginUserService.getCurUser();
+        if(user == null || user.getUserId() == null)
+            throw new ProcessIllegalAccessException("未获得登录用户信息");
+        return user;
+    }
+
+    //判断流程是否已经结束
+    protected boolean processIsEnd(String instanceId){
+        ProcessInstance instance = runtimeService.createProcessInstanceQuery()
+                .processInstanceId(instanceId)
+                .singleResult();
+        if(instance == null || instance.isEnded()){
+            return true;
+        }else
+            return false;
+    }
+
+    protected static Map<String, Object> dataToMap(byte[] bytes) throws IOException {
+        try {
+            Map<String, Object> jsonData = objectMapper.readValue(bytes, new TypeReference<Map<String, Object>>() {
+            });
+            return jsonData;
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    protected static byte[] mapToJsonBytes(Map<String, Object> variables) throws JsonProcessingException {
+        try {
+            String json = objectMapper.writeValueAsString(variables);
+            return json.getBytes(StandardCharsets.UTF_8);
+        } catch (JsonProcessingException e) {
+            throw e;
+        }
+    }
+
+}

@@ -1,0 +1,25 @@
+
+spring:
+  application:
+    name: "bpm"
+#  jackson:
+#    serialization:
+#      write-dates-as-timestamps: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://localhost:3306/comp_flowable?useUnicode=true&characterEncoding=utf8&useSSL=false&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+flowable:
+  async-executor-activate: false
+  data-base-Schema-Update: false
+#  process-definition-location-prefix: "classpath*:/processes/"
+#  process-definition-location-suffixes: "**.bpmn20.xml,**.bpmn"
+
+mybatis-plus:
+  configuration:
+    mapper-locations: classpath*:mapper/*.xml

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fran.demo.flowable.springboot.dao.mapper.AppProcessDefinitionMapper">
+  <resultMap id="BaseResultMap" type="org.fran.demo.flowable.springboot.dao.po.AppProcessDefinition">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="deploy_id" jdbcType="VARCHAR" property="deployId" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="process_name" jdbcType="VARCHAR" property="processName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from app_process_definition
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.fran.demo.flowable.springboot.dao.po.AppProcessDefinition">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into app_process_definition (deploy_id, version, process_name,
+    create_time, status)
+    values (#{deployId,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{processName,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.fran.demo.flowable.springboot.dao.po.AppProcessDefinition">
+    update app_process_definition
+    set deploy_id = #{deployId,jdbcType=VARCHAR},
+        version = #{version,jdbcType=INTEGER},
+        process_name = #{processName,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, deploy_id, version, process_name, create_time, status
+    from app_process_definition
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, deploy_id, version, process_name, create_time, status
+    from app_process_definition
+  </select>
+</mapper>
