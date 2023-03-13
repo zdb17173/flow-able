@@ -1,6 +1,5 @@
 package org.fran.demo.flowable.engine.util;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.runtime.Execution;
@@ -11,10 +10,7 @@ import org.flowable.engine.ProcessEngine;
 import org.flowable.engine.ProcessEngineConfiguration;
 import org.flowable.engine.RepositoryService;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,7 +67,8 @@ public class FlowableDiagramGenerator {
 
         try {
             byte[] bytes = imageService.generateImageByProcInstId(processInstanceId);
-            writeToFile(file, new ByteInputStream(bytes, bytes.length));
+            writeToFile(file, new ByteArrayInputStream(bytes, 0, bytes.length));
+            //writeToFile(file, new ByteInputStream(bytes, bytes.length));
         } catch (Exception e) {
             e.printStackTrace();
         }

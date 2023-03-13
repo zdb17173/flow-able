@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+    <!--
+        name 需唯一
+        rules 规则文件的目录
+    -->
+    <kbase name="myKeyBase1" packages="rules" default="true">
+        <!--
+            name 需唯一
+        -->
+        <ksession name="kSession-rule"  default="true"></ksession>
+    </kbase>
+</kmodule>

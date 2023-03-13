@@ -1,0 +1,36 @@
+package rules;
+
+import org.fran.demo.drools.FactOrder;
+
+rule "score_1"
+when
+    $order:FactOrder(amount<100)
+then
+    $order.setScore(0);
+    System.out.println("100元以下 不积分");
+end
+
+rule "score_2"
+when
+    $order:FactOrder(amount >=100 && amount<500)
+then
+    $order.setScore(100);
+    System.out.println("100元-500元 积100分");
+end
+
+rule "score_3"
+when
+    $order:FactOrder(amount >=500 && amount<1000)
+then
+    $order.setScore(500);
+    System.out.println("500元-1000元 积500分");
+end
+
+rule "score_4"
+when
+    $order:FactOrder(amount >=1000)
+then
+    $order.setScore(1000);
+    System.out.println("1000元以上 积1000分");
+end
+

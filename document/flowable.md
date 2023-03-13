@@ -6,7 +6,7 @@ https://www.flowable.com/getting-started-open-source
 - bpmn https://www.flowable.com/open-source/docs/bpmn/ch02-GettingStarted
 - event registry https://www.flowable.com/open-source/docs/eventregistry/ch02-Configuration
 
-
+- bpmn各功能：https://www.flowable.com/open-source/docs/bpmn/ch07b-BPMN-Constructs
 
 
 数据库：
