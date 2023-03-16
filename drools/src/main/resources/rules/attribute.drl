@@ -1,0 +1,78 @@
+package rules;
+
+import org.fran.demo.drools.fact.*
+import java.util.Date;
+
+rule "attr_1"
+salience 1//后执行1
+when
+    eval(true)
+then
+    System.out.println("attr_1");
+end
+
+rule "attr_2"
+salience 2//先执行2
+when
+    eval(true)
+then
+    System.out.println("attr_2");
+end
+
+rule "attr_3"
+date-effective "7-Dec-2099"//未抵达2099-03-22则不执行
+when
+    eval(true)
+then
+    System.out.println("attr_3");
+end
+
+rule "attr_4"
+activation-group "test"
+when
+    eval(true)
+then
+    System.out.println("activation-group test attr_4执行了");
+end
+
+//不会执行因为相同分组只能执行一个
+rule "attr_5"
+activation-group "test"
+when
+    eval(true)
+then
+    System.out.println("activation-group test attr_5执行了");
+end
+
+rule "attr_6"
+agenda-group "agenda1"
+when
+    eval(true)
+then
+    System.out.println("agenda1执行了");
+end
+
+rule "attr_7"
+agenda-group "agenda2"
+auto-focus
+when
+    eval(true)
+then
+    System.out.println("agenda2执行了");
+end
+
+rule "attr_8"
+timer (5s 2s)//2秒后执行， 每隔2秒执行一次
+when
+    eval(true)
+then
+    System.out.println("attr_8 timer执行了" + new Date());
+end
+
+rule "attr_9"
+timer (cron:0/1 * * * * ?)//基于cron表达式 每秒执行一次
+when
+    eval(true)
+then
+    System.out.println("attr_9 timer执行了" + new Date());
+end

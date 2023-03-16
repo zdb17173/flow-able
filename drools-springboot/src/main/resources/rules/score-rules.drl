@@ -1,6 +1,6 @@
 package rules;//package对应的不一定是真正的目录。可以任意写，同一个包下的drl文件可以相互访问
 
-import org.fran.demo.drools.fact.Order;//引入类
+import org.fran.demo.drools.springboot.fact.Order;//引入类
 
 rule "score_1"
 when

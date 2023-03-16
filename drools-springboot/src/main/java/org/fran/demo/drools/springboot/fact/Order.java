@@ -1,16 +1,16 @@
-package org.fran.demo.drools;
+package org.fran.demo.drools.springboot.fact;
 
 /**
  * @author qiushi
  * @date 2023/3/13
  */
-public class FactOrder {
+public class Order {
     private int amount;//金额
     private int score;//积分
 
-    public FactOrder(){}
+    public Order(){}
 
-    public FactOrder(int amount, int score) {
+    public Order(int amount, int score) {
         this.amount = amount;
         this.score = score;
     }

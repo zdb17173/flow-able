@@ -1,0 +1,73 @@
+package rules;
+
+import org.fran.demo.drools.fact.*;
+
+rule "curd_1"
+    when
+        eval(true)
+    then
+        User user = new User();
+        user.setName("fran");
+        insert(user);
+        User user2 = new User();
+        user2.setName("fran2");
+        insert(user2);
+        System.out.println("insert User{name=fran}");
+end
+
+rule "curd_2"
+    when
+        $user:User(name == "fran")
+    then
+        System.out.println("自动创建的User fran被匹配到");
+end
+
+//更新后，规则会被重新走一圈
+rule "curd_3"
+    when
+        $user:User(name == "fran哈哈哈")
+    then
+        System.out.println("自动创建的User fran被更新并且被匹配");
+end
+
+rule "curd_4"
+    when
+        $user:User(name == "fran")
+    then
+        $user.setName("fran哈哈哈");
+        update($user);
+end
+
+rule "curd_5"
+    no-loop true//防止死循环，规则只会执行一次
+    when
+        $user:User(name == "fran哈哈哈")
+    then
+        System.out.println("当fran哈哈哈 update");
+        update($user);
+end
+
+//会被执行
+rule "curd_6"
+    when
+        $user:User(name == "fran2")
+    then
+        System.out.println("fran2 来了111");
+end
+
+rule "curd_7"
+    no-loop true//防止死循环，规则只会执行一次
+    when
+        $user:User(name == "fran2")
+    then
+        delete($user);
+        System.out.println("删除了fran2");
+end
+
+//不会被执行，因为已经删了
+rule "curd_8"
+    when
+        $user:User(name == "fran2")
+    then
+        System.out.println("fran2 来了222");
+end

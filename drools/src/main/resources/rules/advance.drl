@@ -1,0 +1,52 @@
+package rules;
+
+import org.fran.demo.drools.fact.*
+import java.util.Date;
+import java.util.List;
+
+
+//高级语法：global
+global java.util.List globalList;
+global org.fran.demo.drools.service.GlobalService service;
+
+rule "adv_1"
+when
+    eval(true)
+then
+    globalList.add("1");
+    globalList.add("2");
+end
+
+rule "adv_2"
+when
+    eval(true)
+then
+    Order order = new Order();
+    order.setAmount(11);
+    order.setScore(11);
+    String id = service.getOrder(order);//调用外部业务
+    System.out.println("global service:" + id);
+end
+
+//高级语法：查询
+query "query_1"
+    $user : User(age > 18)
+end
+
+query "query_2"(String nameParam)
+    $user : User(age > 18, name == nameParam)
+end
+
+
+function String format(String name){
+    return "old man:" + name;
+}
+
+rule "adv_3"
+when
+    $user: User(age > 18);
+then
+    String name = format($user.getName());
+    System.out.println("format:" + name);
+    $user.setName(name);
+end
